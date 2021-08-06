@@ -1,0 +1,97 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Construct",
+          "version": "1.116.0"
+        }
+      },
+      "CdkSampleAppStack": {
+        "id": "CdkSampleAppStack",
+        "path": "CdkSampleAppStack",
+        "children": {
+          "epic-sample-app-bucket": {
+            "id": "epic-sample-app-bucket",
+            "path": "CdkSampleAppStack/epic-sample-app-bucket",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "CdkSampleAppStack/epic-sample-app-bucket/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.116.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkSampleAppStack/epic-sample-app-bucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketEncryption": {
+                      "serverSideEncryptionConfiguration": [
+                        {
+                          "serverSideEncryptionByDefault": {
+                            "sseAlgorithm": "AES256"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.116.0"
+            }
+          },
+          "epic-sample-app-bucket-name-export": {
+            "id": "epic-sample-app-bucket-name-export",
+            "path": "CdkSampleAppStack/epic-sample-app-bucket-name-export",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.116.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "CdkSampleAppStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "CdkSampleAppStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.116.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "@aws-cdk/core.App",
+      "version": "1.116.0"
+    }
+  }
+}

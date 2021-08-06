@@ -1,0 +1,42 @@
+{
+  "Resources": {
+    "epicsampleappbucket816A2767": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "CdkSampleAppStack/epic-sample-app-bucket/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAACiWLQQqDMBAA3+I9rl0s7bXUBxTsC2TdQgxNSnbXHkL+LuppBoZBQLzBpXlMf2lpDl2hlBnKWycKbkhRNBupGz7xZfqzw0aWZJm4uv2SHsrTKPDRTqvVxTQzLNKteAW8Q98s4n2bLar/MownN3S18Ph/AAAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CdkSampleAppStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "epicsampleappbucketnameexport": {
+      "Value": {
+        "Ref": "epicsampleappbucket816A2767"
+      },
+      "Export": {
+        "Name": "epic-sample-app-bucket-name"
+      }
+    }
+  }
+}

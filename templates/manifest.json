@@ -1,0 +1,93 @@
+{
+  "version": "13.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "CdkSampleAppStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://524849261220/us-east-1",
+      "properties": {
+        "templateFile": "CdkSampleAppStack.template.json",
+        "validateOnSynth": false
+      },
+      "metadata": {
+        "/CdkSampleAppStack/epic-sample-app-bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "epicsampleappbucket816A2767",
+            "trace": [
+              "new Bucket (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\aws-s3\\lib\\bucket.ts:713:22)",
+              "new CdkSampleAppStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:8:20)",
+              "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\bin\\cdk-sample-app.ts:7:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1085:14)",
+              "Module.m._compile (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1114:10)",
+              "Object.require.extensions.<computed> [as .ts] (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:950:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:790:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:76:12)",
+              "main (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\bin.ts:198:14)",
+              "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1085:14)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)",
+              "Module.load (internal/modules/cjs/loader.js:950:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:790:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:76:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/CdkSampleAppStack/epic-sample-app-bucket-name-export": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "epicsampleappbucketnameexport",
+            "trace": [
+              "new CdkSampleAppStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:12:5)",
+              "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\bin\\cdk-sample-app.ts:7:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1085:14)",
+              "Module.m._compile (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1114:10)",
+              "Object.require.extensions.<computed> [as .ts] (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:950:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:790:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:76:12)",
+              "main (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\bin.ts:198:14)",
+              "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1085:14)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)",
+              "Module.load (internal/modules/cjs/loader.js:950:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:790:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:76:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/CdkSampleAppStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata",
+            "trace": [
+              "new MetadataResource (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\metadata-resource.ts:22:24)",
+              "D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:166:5",
+              "visit (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:231:5)",
+              "visit (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:227:5)",
+              "injectMetadataResources (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:157:3)",
+              "Object.synthesize (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:18:3)",
+              "App.synth (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\stage.ts:94:23)",
+              "process.<anonymous> (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\core\\lib\\app.ts:64:45)",
+              "Object.onceWrapper (events.js:482:26)",
+              "process.emit (events.js:375:28)",
+              "process.emit (domain.js:470:12)",
+              "process.emit (D:\\Projects\\cdk-sample-app\\node_modules\\source-map-support\\source-map-support.js:495:21)"
+            ]
+          }
+        ]
+      },
+      "displayName": "CdkSampleAppStack"
+    }
+  }
+}
