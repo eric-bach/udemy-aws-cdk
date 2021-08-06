@@ -7,21 +7,21 @@
         "file": "tree.json"
       }
     },
-    "CdkSampleAppStack": {
+    "EpicAppCdkStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://524849261220/us-east-1",
       "properties": {
-        "templateFile": "CdkSampleAppStack.template.json",
+        "templateFile": "EpicAppCdkStack.template.json",
         "validateOnSynth": false
       },
       "metadata": {
-        "/CdkSampleAppStack/epic-sample-app-bucket/Resource": [
+        "/EpicAppCdkStack/epic-sample-app-bucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "epicsampleappbucket816A2767",
             "trace": [
               "new Bucket (D:\\Projects\\cdk-sample-app\\node_modules\\@aws-cdk\\aws-s3\\lib\\bucket.ts:713:22)",
-              "new CdkSampleAppStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:8:20)",
+              "new EpicAppCdkStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:8:20)",
               "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\bin\\cdk-sample-app.ts:7:1)",
               "Module._compile (internal/modules/cjs/loader.js:1085:14)",
               "Module.m._compile (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1056:23)",
@@ -41,12 +41,12 @@
             ]
           }
         ],
-        "/CdkSampleAppStack/epic-sample-app-bucket-name-export": [
+        "/EpicAppCdkStack/epic-sample-app-bucket-name-export": [
           {
             "type": "aws:cdk:logicalId",
             "data": "epicsampleappbucketnameexport",
             "trace": [
-              "new CdkSampleAppStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:12:5)",
+              "new EpicAppCdkStack (D:\\Projects\\cdk-sample-app\\lib\\cdk-sample-app-stack.ts:12:5)",
               "Object.<anonymous> (D:\\Projects\\cdk-sample-app\\bin\\cdk-sample-app.ts:7:1)",
               "Module._compile (internal/modules/cjs/loader.js:1085:14)",
               "Module.m._compile (D:\\Projects\\cdk-sample-app\\node_modules\\ts-node\\src\\index.ts:1056:23)",
@@ -66,7 +66,7 @@
             ]
           }
         ],
-        "/CdkSampleAppStack/CDKMetadata/Default": [
+        "/EpicAppCdkStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata",
@@ -87,7 +87,7 @@
           }
         ]
       },
-      "displayName": "CdkSampleAppStack"
+      "displayName": "EpicAppCdkStack"
     }
   }
 }

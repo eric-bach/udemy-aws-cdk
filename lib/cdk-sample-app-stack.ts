@@ -9,70 +9,74 @@ import { HttpApi, CorsHttpMethod, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
 import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
 import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 
-export class CdkSampleAppStack extends cdk.Stack {
+export class EpicAppCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // S3 bucket
-    const bucket = new Bucket(this, 'epic-sample-app-bucket', {
+    // Photos bucket
+    const photosBucket = new Bucket(this, 'epic-app-photos-bucket', {
       encryption: BucketEncryption.S3_MANAGED,
     });
 
     // Website bucket
-    const websiteBucket = new Bucket(this, 'epic-sample-app-website-bucket', {
+    const websiteBucket = new Bucket(this, 'epic-app-website-bucket', {
       websiteIndexDocument: 'index.html',
       publicReadAccess: true,
     });
 
     // Website bucket deployment
-    new BucketDeployment(this, 'EpicSampleAppWebsite', {
+    new BucketDeployment(this, 'EpicAppWebsiteBucket', {
       sources: [Source.asset(path.join(__dirname, '..', 'frontend', 'build'))],
       destinationBucket: websiteBucket,
     });
 
     // Cloudfront
-    const cloudFront = new CloudFrontWebDistribution(this, 'EpicCloudFront', {
-      originConfigs: [
-        {
-          s3OriginSource: {
-            s3BucketSource: websiteBucket,
+    const cloudFront = new CloudFrontWebDistribution(
+      this,
+      'EpicAppCloudFront',
+      {
+        originConfigs: [
+          {
+            s3OriginSource: {
+              s3BucketSource: websiteBucket,
+            },
+            behaviors: [{ isDefaultBehavior: true }],
           },
-          behaviors: [{ isDefaultBehavior: true }],
-        },
-      ],
-    });
+        ],
+      }
+    );
 
-    // S3 bucket deployment
-    new BucketDeployment(this, 'EpicSimpleAppPhotos', {
+    // Photos bucket deployment
+    new BucketDeployment(this, 'EpicAppPhotosBucket', {
       sources: [Source.asset(path.join(__dirname, '..', 'photos'))],
-      destinationBucket: bucket,
+      destinationBucket: photosBucket,
       distribution: cloudFront,
     });
 
     // Lambda function
-    const getPhotos = new lambda.NodejsFunction(this, 'MySimpleAppLambda', {
+    const getPhotos = new lambda.NodejsFunction(this, 'EpicAppLambda', {
       runtime: Runtime.NODEJS_12_X,
       entry: path.join(__dirname, '..', 'api', 'get-photos', 'index.ts'),
       handler: 'getPhotos',
       environment: {
-        PHOTO_BUCKET_NAME: bucket.bucketName,
+        PHOTO_BUCKET_NAME: photosBucket.bucketName,
       },
     });
 
     // Lambda permissions
     const bucketContainerPermissions = new PolicyStatement();
-    bucketContainerPermissions.addResources(bucket.bucketArn);
+    bucketContainerPermissions.addResources(photosBucket.bucketArn);
     bucketContainerPermissions.addActions('s3:ListBucket');
 
     const bucketPermissions = new PolicyStatement();
-    bucketPermissions.addResources(`${bucket.bucketArn}/*`);
+    bucketPermissions.addResources(`${photosBucket.bucketArn}/*`);
     bucketPermissions.addActions('s3:GetObject', 's3:PutObject');
 
     getPhotos.addToRolePolicy(bucketContainerPermissions);
     getPhotos.addToRolePolicy(bucketPermissions);
 
     // API gateway
-    const httpApi = new HttpApi(this, 'EpicHttpApi', {
+    const httpApi = new HttpApi(this, 'EpicApiGateway', {
       corsPreflight: {
         allowOrigins: ['*'],
         allowMethods: [CorsHttpMethod.GET],
@@ -92,24 +96,24 @@ export class CdkSampleAppStack extends cdk.Stack {
     });
 
     // Outputs
-    new cdk.CfnOutput(this, 'epic-sample-app-bucket-name-export', {
-      value: bucket.bucketName,
-      exportName: 'epic-sample-app-bucket-name',
+    new cdk.CfnOutput(this, 'epic-app-photos-bucket-name', {
+      value: photosBucket.bucketName,
+      exportName: 'epic-app-photos-bucket-name',
     });
 
-    new cdk.CfnOutput(this, 'epic-sample-website-bucket-name-export', {
+    new cdk.CfnOutput(this, 'epic-app-website-bucket-name', {
       value: websiteBucket.bucketName,
-      exportName: 'epic-sample-website-bucket-name',
+      exportName: 'epic-app-website-bucket-name',
     });
 
-    new cdk.CfnOutput(this, 'epic-cloudfront-name', {
+    new cdk.CfnOutput(this, 'epic-app-cloudfront-name', {
       value: cloudFront.distributionDomainName,
-      exportName: 'epic-cloudfront-name',
+      exportName: 'epic-app-cloudfront-name',
     });
 
-    new cdk.CfnOutput(this, 'epic-api-url', {
+    new cdk.CfnOutput(this, 'epic-app-api-url', {
       value: httpApi.url!,
-      exportName: 'epic-api-url',
+      exportName: 'epic-app-api-url',
     });
   }
 }

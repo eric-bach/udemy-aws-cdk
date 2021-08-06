@@ -10,7 +10,7 @@ import '@aws-cdk/assert/jest';
 test('Stack output is complete', () => {
   const app = new cdk.App();
   // WHEN
-  const stack = new CdkSampleApp.CdkSampleAppStack(app, 'MyTestStack');
+  const stack = new CdkSampleApp.EpicAppCdkStack(app, 'MyTestStack');
   // THEN
   expectCDK(stack).to(
     matchTemplate(
@@ -53,7 +53,7 @@ test('Stack creates a S3 bucket', () => {
   // ARRANGE
   const app = new cdk.App();
   // ACT
-  const stack = new CdkSampleApp.CdkSampleAppStack(app, 'MyTestStack');
+  const stack = new CdkSampleApp.EpicAppCdkStack(app, 'MyTestStack');
   // ASSERT
   expect(stack).toHaveResource('AWS::S3::Bucket');
 });

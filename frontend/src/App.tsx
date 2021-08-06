@@ -7,7 +7,7 @@ function App() {
   const [allPhotos, setAllPhotos] = useState([]);
 
   async function fetchPhotos() {
-    const { data } = await axios.get(`${baseUri}getAllPhotos`);
+    const { data } = await axios.get(`${baseUri}/getAllPhotos`);
     setAllPhotos(data);
   }
 

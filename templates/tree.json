@@ -12,17 +12,17 @@
           "version": "1.116.0"
         }
       },
-      "CdkSampleAppStack": {
-        "id": "CdkSampleAppStack",
-        "path": "CdkSampleAppStack",
+      "EpicAppCdkStack": {
+        "id": "EpicAppCdkStack",
+        "path": "EpicAppCdkStack",
         "children": {
           "epic-sample-app-bucket": {
             "id": "epic-sample-app-bucket",
-            "path": "CdkSampleAppStack/epic-sample-app-bucket",
+            "path": "EpicAppCdkStack/epic-sample-app-bucket",
             "children": {
               "Notifications": {
                 "id": "Notifications",
-                "path": "CdkSampleAppStack/epic-sample-app-bucket/Notifications",
+                "path": "EpicAppCdkStack/epic-sample-app-bucket/Notifications",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.Construct",
                   "version": "1.116.0"
@@ -30,7 +30,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "CdkSampleAppStack/epic-sample-app-bucket/Resource",
+                "path": "EpicAppCdkStack/epic-sample-app-bucket/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                   "aws:cdk:cloudformation:props": {
@@ -58,7 +58,7 @@
           },
           "epic-sample-app-bucket-name-export": {
             "id": "epic-sample-app-bucket-name-export",
-            "path": "CdkSampleAppStack/epic-sample-app-bucket-name-export",
+            "path": "EpicAppCdkStack/epic-sample-app-bucket-name-export",
             "constructInfo": {
               "fqn": "@aws-cdk/core.CfnOutput",
               "version": "1.116.0"
@@ -66,11 +66,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "CdkSampleAppStack/CDKMetadata",
+            "path": "EpicAppCdkStack/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "CdkSampleAppStack/CDKMetadata/Default",
+                "path": "EpicAppCdkStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.CfnResource",
                   "version": "1.116.0"
