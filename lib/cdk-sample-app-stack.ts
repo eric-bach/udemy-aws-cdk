@@ -12,6 +12,7 @@ import { ARecord, IPublicHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { S3Origin } from '@aws-cdk/aws-cloudfront-origins';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
+import { S3BucketWithDeploy } from './s3-bucket-with-deploy';
 
 interface SimpleAppStackProps extends cdk.StackProps {
   envName: string;
@@ -24,8 +25,8 @@ export class EpicAppCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: SimpleAppStackProps) {
     super(scope, id, props);
 
-    // Photos bucket
-    const photosBucket = new Bucket(this, 'epic-app-photos-bucket', {
+    const { bucket } = new S3BucketWithDeploy(this, 'EpicAppCustomBucket', {
+      deployTo: ['..', 'photos'],
       encryption: props?.envName === 'prod' ? BucketEncryption.S3_MANAGED : BucketEncryption.UNENCRYPTED,
     });
 
@@ -54,30 +55,23 @@ export class EpicAppCdkStack extends cdk.Stack {
       target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront)),
     });
 
-    // Photos bucket deployment
-    new BucketDeployment(this, 'EpicAppPhotosBucket', {
-      sources: [Source.asset(path.join(__dirname, '..', 'photos'))],
-      destinationBucket: photosBucket,
-      distribution: cloudFront,
-    });
-
     // Lambda function
     const getPhotos = new lambda.NodejsFunction(this, 'EpicAppLambda', {
       runtime: Runtime.NODEJS_12_X,
       entry: path.join(__dirname, '..', 'api', 'get-photos', 'index.ts'),
       handler: 'getPhotos',
       environment: {
-        PHOTO_BUCKET_NAME: photosBucket.bucketName,
+        PHOTO_BUCKET_NAME: bucket.bucketName,
       },
     });
 
     // Lambda permissions
     const bucketContainerPermissions = new PolicyStatement();
-    bucketContainerPermissions.addResources(photosBucket.bucketArn);
+    bucketContainerPermissions.addResources(bucket.bucketArn);
     bucketContainerPermissions.addActions('s3:ListBucket');
 
     const bucketPermissions = new PolicyStatement();
-    bucketPermissions.addResources(`${photosBucket.bucketArn}/*`);
+    bucketPermissions.addResources(`${bucket.bucketArn}/*`);
     bucketPermissions.addActions('s3:GetObject', 's3:PutObject');
 
     getPhotos.addToRolePolicy(bucketContainerPermissions);
@@ -105,7 +99,7 @@ export class EpicAppCdkStack extends cdk.Stack {
 
     // Outputs
     new cdk.CfnOutput(this, 'epic-app-photos-bucket-name', {
-      value: photosBucket.bucketName,
+      value: bucket.bucketName,
       exportName: `epic-app-photos-bucket-name-${props?.envName}`,
     });
 
