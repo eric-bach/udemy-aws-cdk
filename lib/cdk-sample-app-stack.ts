@@ -7,15 +7,26 @@ import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment';
 import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { HttpApi, CorsHttpMethod, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
 import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
-import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
+import { Distribution } from '@aws-cdk/aws-cloudfront';
+import { ARecord, IPublicHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
+import { ICertificate } from '@aws-cdk/aws-certificatemanager';
+import { S3Origin } from '@aws-cdk/aws-cloudfront-origins';
+import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
+
+interface SimpleAppStackProps extends cdk.StackProps {
+  envName: string;
+  dnsName: string;
+  hostedZone: IPublicHostedZone;
+  certificate: ICertificate;
+}
 
 export class EpicAppCdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props?: SimpleAppStackProps) {
     super(scope, id, props);
 
     // Photos bucket
     const photosBucket = new Bucket(this, 'epic-app-photos-bucket', {
-      encryption: BucketEncryption.S3_MANAGED,
+      encryption: props?.envName === 'prod' ? BucketEncryption.S3_MANAGED : BucketEncryption.UNENCRYPTED,
     });
 
     // Website bucket
@@ -30,21 +41,18 @@ export class EpicAppCdkStack extends cdk.Stack {
       destinationBucket: websiteBucket,
     });
 
-    // Cloudfront
-    const cloudFront = new CloudFrontWebDistribution(
-      this,
-      'EpicAppCloudFront',
-      {
-        originConfigs: [
-          {
-            s3OriginSource: {
-              s3BucketSource: websiteBucket,
-            },
-            behaviors: [{ isDefaultBehavior: true }],
-          },
-        ],
-      }
-    );
+    // Cloudfront distribution
+    const cloudFront = new Distribution(this, 'EpicAppCloudFront', {
+      defaultBehavior: { origin: new S3Origin(websiteBucket) },
+      domainNames: [props!.dnsName],
+      certificate: props?.certificate,
+    });
+
+    // Route53 A Record
+    new ARecord(this, 'EpicAppARecordApex', {
+      zone: props!.hostedZone,
+      target: RecordTarget.fromAlias(new CloudFrontTarget(cloudFront)),
+    });
 
     // Photos bucket deployment
     new BucketDeployment(this, 'EpicAppPhotosBucket', {
@@ -98,22 +106,22 @@ export class EpicAppCdkStack extends cdk.Stack {
     // Outputs
     new cdk.CfnOutput(this, 'epic-app-photos-bucket-name', {
       value: photosBucket.bucketName,
-      exportName: 'epic-app-photos-bucket-name',
+      exportName: `epic-app-photos-bucket-name-${props?.envName}`,
     });
 
     new cdk.CfnOutput(this, 'epic-app-website-bucket-name', {
       value: websiteBucket.bucketName,
-      exportName: 'epic-app-website-bucket-name',
+      exportName: `epic-app-website-bucket-name-${props?.envName}`,
     });
 
     new cdk.CfnOutput(this, 'epic-app-cloudfront-name', {
       value: cloudFront.distributionDomainName,
-      exportName: 'epic-app-cloudfront-name',
+      exportName: `epic-app-cloudfront-name-${props?.envName}`,
     });
 
     new cdk.CfnOutput(this, 'epic-app-api-url', {
       value: httpApi.url!,
-      exportName: 'epic-app-api-url',
+      exportName: `epic-app-api-url-${props?.envName}`,
     });
   }
 }
